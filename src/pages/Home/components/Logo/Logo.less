@@ -1,0 +1,69 @@
+// @import '~@/static/styles/helper.less';
+
+.ant-layout-logo-base {
+    float: left;
+    display: inline-block;
+    height: 50px;
+    margin-right: 0;
+    background: #002135;
+    box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+    text-align: center;
+    transition: all 0.2s;
+  }
+  
+  .ant-layout-logo-text {
+    opacity: 1;
+    font-size: 15px;
+    transition: opacity 0.2s ease-in;
+  }
+  
+  .ant-layout-logo-normal {
+    width: 200px;
+    .ant-layout-logo-base;
+  }
+  
+  .ant-layout-logo {
+    height: 50px;
+    font-weight: bold;
+    font-size: 22px;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+  
+    &-icon {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin-bottom: -8px;
+      color: #dcdcdc;
+      // background: url("./assets/logo.png") no-repeat;
+      background-size: 30px auto;
+    }
+  
+    &-name {
+      padding-left: 5px;
+      color: #dcdcdc;
+      .ant-layout-logo-text;
+    }
+  
+    &-sub-name {
+      padding-left: 1px;
+      color: #0ca0ff;
+      .ant-layout-logo-text;
+    }
+  }
+  
+  .ant-layout-logo-collapse {
+    position: relative;
+    width: 80px;
+    background-position: 17px center;
+    .ant-layout-logo-base;
+  
+    .ant-layout-logo-name,
+    .ant-layout-logo-sub-name {
+      position: absolute;
+      opacity: 0;
+      z-index: -10;
+    }
+  }
+  
