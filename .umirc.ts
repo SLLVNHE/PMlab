@@ -1,8 +1,9 @@
 import { defineConfig } from 'umi';
 
 export default defineConfig({
-  nodeModulesTransform: {
-    type: 'none',
+  hash: true,
+  history: {
+    type: 'hash',
   },
   routes: [
     // { path: '/', component: '@/pages/index' },
@@ -11,7 +12,9 @@ export default defineConfig({
     {path:'/login', component: 'Login'},
     {path:'/home', component: 'Home'},
     {path:'/details',exact: false, component: 'Details'},
-    {path:'/userinfo', component: 'UserInfo'}
+    {path:'/userinfo', component: 'UserInfo'},
+    {path:'/atmia', component: 'Atmia'},
+     
 
   ],
   proxy: {

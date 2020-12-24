@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, history } from 'umi';
 import './Login.less';
 import ver from '@/static/images/ver.png';
@@ -7,6 +7,7 @@ import { Form, Input, Button, Card } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import VerificationCode from '@/components/VerificationCode';
 import request from '@/common/request';
+import Atmia from '../Atmia';
 
 const layout = {
   labelCol: { span: 0 },
@@ -19,6 +20,11 @@ const tailLayout = {
 export default () => {
   const [disable, setDisable] = useState(false);
   const [onload, setonload] = useState(false);
+
+  useEffect(() => {
+    localStorage.removeItem("x-auth-token")
+    localStorage.removeItem("use-id")
+  }, [])
 
   const onFinish = (values: any) => {
     request('/api/login', {
@@ -50,11 +56,14 @@ export default () => {
 
   return (
     <div className="login">
-      <div className="img">
+      <Atmia />
+      {/* <div className="img">
         <img src={logo} id="logo-img" />
-      </div>
+      </div> */}
       <Card
         title="登录账户"
+        className="login_card"
+        // bordered={false}
         headStyle={{ textAlign: 'center', fontSize: '25px' }}
         style={{ width: 500 }}
       >

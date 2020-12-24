@@ -1,45 +1,51 @@
-.card_img{
-    width: 100%;
-   height: auto;
-    
+.card_img {
+  width: 100%;
+  height: auto;
 }
 
-.type_add{
-    display: flex;
-    justify-content: space-between;
-   
+.type_add {
+  display: flex;
+  justify-content: space-between;
 }
 
-.ant-card-body{
-    padding: 10px;
+.ant-card-body {
+  padding: 10px;
 }
 
-#name{
-   
-    color: black;
-    font-size: 0.875rem;
-    font-weight: bold;
+#name {
+  color: black;
+  font-size: 0.875rem;
+  font-weight: bold;
 }
-.card_meta{
-    color: #AAAAAA;
-}
-
-.card-data{
-    overflow:hidden; //超出的文本隐藏
-text-overflow:ellipsis; //溢出用省略号显示
-white-space:nowrap; //溢出不换行
+.card_meta {
+  color: #aaaaaa;
 }
 
-.card_des{
-   
-    font-size: 12px;
-    color: #333;
-    font-weight: normal;
-    margin-top: 10px;
+.card-data {
+  overflow: hidden; //超出的文本隐藏
+  text-overflow: ellipsis; //溢出用省略号显示
+  white-space: nowrap; //溢出不换行
 }
 
-.showcard{
-    // max-width: 300px;
-    padding: 10px 10px;
-    flex: 1 0 24%;
+.card_des {
+  font-size: 12px;
+  color: #333;
+  font-weight: normal;
+  margin-top: 10px;
+}
+
+.showcard {
+  // max-width: 300px;
+  padding: 10px 10px;
+  flex: 1 0 24%;
+}
+
+.show_time {
+    -webkit-line-clamp: 1; // 用来限制在一个块元素显示的文本的行数
+    display: -webkit-box; // 将对象作为弹性伸缩盒模型显示
+    -webkit-box-orient: vertical; //设置或检查伸缩盒对象的子元素的排列方式
+    text-overflow: ellipsis; // 在多行文本的情况下，用...隐藏超出范围的文本
+    word-break: break-all;
+    overflow: hidden;
+  
 }

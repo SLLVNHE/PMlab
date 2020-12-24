@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import './Info.less';
-import { Map, APILoader, Marker } from '@uiw/react-amap';
+// import { Map, APILoader, Marker } from '@uiw/react-amap';
+import { Map, Marker } from 'react-amap';
 import {
   Card,
   Modal,
@@ -91,61 +92,7 @@ const InfoData = {
   comments: [],
 };
 
-const data1 = {
-  id: 1,
-  activityName: '字节校园招聘',
-  introduction:
-    '腾讯校园招聘,只要最好的你不服韶光,期待你的加入我们在等你，你在行动不要忘记这些年轻的日子，腾讯校园招聘,只要最好的你不服韶光,期待你的加入我们在等你，你在行动不要忘记这些年轻的日子是不必说',
-  type: '校园招聘',
-  capacity: 30,
-  currentNumber: 15,
-  picture:
-    'https://qcloud.dpfile.com/pc/qsNxhHWLFz7KcNf4i5CLDOjxTaOLbOl3mAFfKBNo23SH0YsC31yqtQmMh4R_7oSnjoJrvItByyS4HHaWdXyO_I7F0UeCRQYMHlogzbt7GHgNNiIYVnHvzugZCuBITtvjski7YaLlHpkrQUr5euoQrg.jpg',
-  activityVenue: '复旦大学光华楼西辅楼203',
-  activityStartTime: '2020.12.12 10:00',
-  activityEndTime: '2020.12.12 11:00',
-  signUpStartTime: '2020.10.12 10:00',
-  signUpEndTime: '2020.12.11 10:00',
-  enrolled: 0,
-  status: 0,
-  host: '宇宙协会',
-  comments: [1],
-};
-const data2 = [
-  {
-    author: 'Han Solo',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    content: (
-      <p>
-        We supply a series of design principles, practical patterns and high
-        quality design resources (Sketch and Axure), to help people create their
-        product prototypes beautifully and efficiently.
-      </p>
-    ),
-    datetime: (
-      <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-        <span>{moment().fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-  {
-    actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-    author: 'Han Solo',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    content: (
-      <p>
-        We supply a series of design principles, practical patterns and high
-        quality design resources (Sketch and Axure), to help people create their
-        product prototypes beautifully and efficiently.
-      </p>
-    ),
-    datetime: (
-      <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-        <span>{moment().fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-];
+
 
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
   <>
@@ -166,6 +113,7 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
 );
 
 const Info = props => {
+  const {id} = props
   const targetRef = useRef(null);
   const [isShow, setisShow] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -184,62 +132,10 @@ const Info = props => {
   });
   const [status, setstatus] = useState(0);
 
+
   const handleChange = e => {
     setvalue(e.target.value);
   };
-
-
-
-  const refresh = ()=>{
-    request('/api/activityDetails', {
-      method: 'GET',
-      params: { activityId: 6 },
-    })
-      .then(function(response) {
-        setdata(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
-
-  const handleSubmit = () => {
-    if (!value) {
-      return;
-    }
-    request('/api/writeReview', {
-      method: 'POST',
-      data: {
-        activityId: 4,
-        userId: localStorage.getItem('use-id'),
-        text: value,
-      },
-    })
-      .then(function(response) {
-        setdata(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-    setsubmitting(true);
-
-    setTimeout(() => {
-      setsubmitting(false);
-      setvalue('');
-    }, 1000);
-  };
-
-  useEffect(() => {
-    refresh()
-  }, []);
-
-  useEffect(() => {
-    const width = targetRef.current ? targetRef.current.clientWidth : 0;
-    const width2 = targetRef.current ? targetRef.current.scrollWidth : 0;
-    // console.log(width, width2);
-    setisShow(width < width2);
-  });
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -267,12 +163,63 @@ const Info = props => {
     setVisible(false);
   };
 
-  useEffect(() => {
-    // console.log( moment(new Date(data.activityStartTime)).format('YYYY-MM-DD HH:mm'))
-    window.AMap.plugin('AMap.PlaceSearch', function() {
-      //异步加载插件
-      var search = new window.AMap.PlaceSearch();
+  const refresh = ()=>{
+    request('/api/activityDetails', {
+      method: 'GET',
+      params: { activityId: id },
+    })
+      .then(function(response) {
+        setdata(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
+  const handleSubmit = () => {
+    if (!value) {
+      return;
+    }
+    request('/api/writeReview', {
+      method: 'POST',
+      data: {
+        activityId: id,
+        //  userId: localStorage.getItem('use-id'),
+        text: value,
+        score:5
+      },
+    })
+      .then(function(response) {
+        refresh()
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    setsubmitting(true);
+
+    setTimeout(() => {
+      setsubmitting(false);
+      setvalue('');
+    }, 1000);
+  };
+
+  useEffect(() => {
+    refresh()
+  }, []);
+
+  useEffect(() => {
+    const width = targetRef.current ? targetRef.current.clientWidth : 0;
+    const width2 = targetRef.current ? targetRef.current.scrollWidth : 0;
+    // console.log(width, width2);
+    setisShow(width < width2);
+  });
+
+
+
+  useEffect(() => {
+    window.AMap.plugin('AMap.PlaceSearch', function() {
+      var search = new window.AMap.PlaceSearch();
       search.search(data.activityVenue, function(status, result) {
         const locx = result.poiList?.pois[0]?.location.Q
           ? result.poiList?.pois[0].location.Q
@@ -285,6 +232,7 @@ const Info = props => {
       });
     });
   }, [data]);
+
 
   useEffect(() => {
     const date1 = new Date(data.signUpEndTime); //开始时间
@@ -307,9 +255,6 @@ const Info = props => {
     } else {
       setstatus(1);
     }
-
-    console.log(12, status);
-
     settime({
       days: days,
       hours: hours,
@@ -325,7 +270,7 @@ const Info = props => {
   const handleSignup = ()=>{
     request('/api/activityEnrollment', {
       method: 'GET',
-      params: { activityId: 6 },
+      params: { activityId: id },
     })
       .then(function(response) {
         message.success('报名成功');
@@ -339,7 +284,7 @@ const Info = props => {
   const handleSigndown = ()=>{
     request('/api/retreatEnrollment', {
       method: 'GET',
-      params: { activityId: 6 },
+      params: { activityId: id },
     })
       .then(function(response) {
         message.success('取消报名成功');
@@ -349,6 +294,8 @@ const Info = props => {
         console.log(error);
       });
   }
+
+
 
   
 
@@ -398,7 +345,7 @@ const Info = props => {
           ) : null}
           {status == 0 && data.enrolled == 1 ? (
             <Button
-              type="primary"
+              type="primary" danger
               className="details_info_H2_join_btn"
               size="large"
               onClick={handleSigndown}
@@ -425,7 +372,7 @@ const Info = props => {
 
       <div className="details_info_content">
         <div className="details_info_img">
-          <img className="details_info_img_img" src={list2} alt="" />
+          <img className="details_info_img_img" src={`http://175.24.120.91/images/${data.picture}`} alt="" />
         </div>
         <div className="details_info_block">
           <Divider />
@@ -462,24 +409,30 @@ const Info = props => {
                 'YYYY-MM-DD HH:mm',
               )}
             </div>
-            <Anchor>
+            {/* <Anchor>
               <Link
                 href="#detail_card"
                 title="显示当前活动留言"
                 className="details_info_detail"
               />
-
-              {/* </div> */}
-            </Anchor>
+            </Anchor> */}
           </div>
           <Divider />
           <div className="details_info_des" id="info_des" ref={targetRef}>
             简介：{data.introduction}
           </div>
           <Divider />
+         
           <div className="details_info_block_map">
             <div className="details_info_map2">
-              <APILoader akay={mapKey}>
+            <Map 
+         
+          center={{longitude: loctiony, latitude: loctionx}}
+          zoom={16}
+        >
+          <Marker position={{longitude: loctiony, latitude: loctionx}} />
+        </Map>
+              {/* <APILoader akay={mapKey}>
                 <Map zoom={16} center={[loctiony, loctionx]}>
                   <Marker
                     visiable={true}
@@ -489,10 +442,10 @@ const Info = props => {
                       offset: new AMap.Pixel(20, 20),
                       direction: 'right',
                     }}
-                    position={new AMap.LngLat(loctiony, loctionx)}
+                    // position={new AMap.LngLat(loctiony, loctionx)}
                   />
                 </Map>
-              </APILoader>
+              </APILoader> */}
             </div>
             <div className="details_info_mapinfo">
               <div className="details_info_mapinfo_text">
@@ -502,14 +455,14 @@ const Info = props => {
             </div>
           </div>
           <Divider />
-          <Anchor>
+          {/* <Anchor>
             <Link
               href="#detail_card"
               title="显示活动详情"
               className="details_info_detail"
             />
-          </Anchor>
-          {/* <a href="#detail_card" className="details_info_detail">显示活动详情</a> */}
+          </Anchor> */}
+         
         </div>
       </div>
 
@@ -521,7 +474,7 @@ const Info = props => {
           onChange={callback}
           className="details_info_message_tab"
         >
-          <TabPane tab="留言板" key="1">
+          <TabPane tab="评价板" key="1">
             {data.comments?.length ? (
               <List
                 className="comment-list"
@@ -551,7 +504,7 @@ const Info = props => {
                 }}
                 description={<span>暂无留言</span>}
               >
-                <Button type="primary">Create Now</Button>
+                {/* <Button type="primary">Create Now</Button> */}
               </Empty>
             )}
             <Comment
@@ -619,7 +572,14 @@ const Info = props => {
         width={900}
       >
         <div className="details_info_map">
-          <APILoader akay={mapKey}>
+        <Map 
+          plugins={['ToolBar']}
+          center={{longitude: loctiony, latitude: loctionx}}
+          zoom={16}
+        >
+          <Marker position={{longitude: loctiony, latitude: loctionx}} />
+        </Map>
+          {/* <APILoader akay={mapKey}>
             <Map zoom={16} center={[loctiony, loctionx]}>
               <Marker
                 visiable={true}
@@ -632,7 +592,7 @@ const Info = props => {
                 position={new AMap.LngLat(loctiony, loctionx)}
               />
             </Map>
-          </APILoader>
+          </APILoader> */}
         </div>
       </Modal>
 

@@ -13,6 +13,7 @@ import logo from '@/static/images/logo.png';
 import { Link, history } from 'umi';
 import VerificationCode from '@/components/VerificationCode';
 import request from '@/common/request';
+import Atmia from '../Atmia';
 
 const formItemLayout = {
   // labelCol: { span: 0 },
@@ -50,8 +51,11 @@ export default () => {
       .then(function(response) {
         if (response.message == 'success') {
             message.success('注册成功');
-        //   history.push('/login');
-        } else {
+          history.push('/login');
+        }  else if(response.message == 'existed username') {
+          message.success('用户名已存在，请重试');
+        }else{
+          message.success('此学号已存在，请重试');
         }
       })
       .catch(function(error) {
@@ -63,11 +67,14 @@ export default () => {
 
   return (
     <div className="register">
-      <div className="img">
+       <Atmia />
+      {/* <div className="img">
                 <img src={logo} id='logo-img' />
-            </div>
+            </div> */}
       <Card
         title="注册账户"
+        className="register_card"
+        // bordered={false}
         headStyle={{ textAlign: 'center', fontSize: '25px' }}
         style={{ width: 500 }}
       >

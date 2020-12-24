@@ -38,6 +38,7 @@ const errorHandler = error => {
   return response;
 };
 const request = extend({
+  // prefix: "http://175.24.120.91:8001",
   errorHandler,
   // 默认错误处理
   // credentials: 'include', // 默认请求是否带上cookie
@@ -46,7 +47,6 @@ const request = extend({
 
 // request拦截器, 改变url 或 options.
 request.interceptors.request.use(async (url, options) => {
-
   let c_token = localStorage.getItem("x-auth-token");
   if (c_token) {
     const headers = {

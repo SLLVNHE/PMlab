@@ -10,9 +10,6 @@ const { Option } = Select;
 import debounce from 'lodash/debounce';
 import { Link } from 'umi';
 
-const activities = [
-    {activityId: 4, activityName: "好好学习天天向上", type: "A", introduction: "好好学习天天向上", picture: "bb"},{activityId: 4, activityName: "好好学习天天向上", type: "A", introduction: "好好学习天天向上", picture: "bb"}
-]
 
 
 
@@ -74,23 +71,14 @@ const getSearch = value => {
 
 
   const handleMenuClick = (e, value) => {
-     
     setvalue(value);
     setacid(e.key)
 };
 
 
-// const handleSearch = (e)=>{
-//     if(e.keyCode == 13){
-//         console.log('回车')
-//         if(acid){
-//            {console.log('回车1')}
-//             <Link to={`/details?id=${acid}`} target="_blank" /> 
-//         }else{
 
-//         }
-//     }
-// }
+
+
 
   const menu =  (
       
@@ -98,7 +86,7 @@ const getSearch = value => {
         { data.length?
             data.map((item, key)=>(
                 <Menu.Item key={item.activityId} className='search_item' onClick={(e)=>handleMenuClick(e, item.activityName)}>
-                 <Link to={`/details?id=${item.activityId}`} target="_blank" > 
+                 <Link to={`/details?id=${item.activityId}`}  target="_blank" > 
                   {item.activityName}
                 </Link>
               </Menu.Item>
